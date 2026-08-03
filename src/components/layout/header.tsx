@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState, type FormEvent } from 'react';
 import { Menu, Search, MessageCircle } from 'lucide-react';
@@ -57,8 +58,9 @@ export function Header({ configuracion }: { configuracion: Configuracion | null 
       )}
     >
       <div className="mx-auto flex h-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-8">
-        <Link href="/" className="font-heading text-lg font-bold text-brand-primary-hover">
-          {siteConfig.name}
+        <Link href="/" className="flex items-center">
+          <Image src="/Logo.png" alt={siteConfig.name} width={40} height={40} className="size-10 object-contain" priority />
+          <span className="sr-only">{siteConfig.name}</span>
         </Link>
 
         <nav className="hidden items-center gap-6 lg:flex">
