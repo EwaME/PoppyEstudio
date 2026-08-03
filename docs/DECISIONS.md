@@ -161,6 +161,28 @@ siguiente `pnpm dev` fallan por archivos bloqueados en `.next`, revisar
 `Get-Process node` / Task Manager por procesos `next dev` viejos antes de asumir
 que es un bug nuevo.
 
+## 2026-08-03 (cont.) — Landing page: tabla `testimonios` reemplaza el feed de redes sociales
+
+Al construir la landing (`docs/superpowers/specs/2026-08-03-landing-page-design.md`)
+se decidió no implementar el feed en vivo de Instagram/Facebook que pedía
+SRS §55 — requiere credenciales de API de Meta que no existen y agregan una
+dependencia externa frágil para una sección de la home. Se reemplazó por una
+sección de Testimonios con calificación en estrellas, respaldada por una
+tabla nueva (`testimonios`, ver `DATABASE.md`).
+
+**Alcance acotado a propósito:** solo lectura pública en esta versión — SRS
+§118 lista "sistema de reseñas" como funcionalidad futura, y un formulario
+público de envío abre temas de moderación/spam/RLS no diseñados. Se puebla
+vía seed (`scripts/seed-content.ts`) o admin futuro; el permiso RBAC
+(`testimonios.*`) ya está en `permissions.ts` siguiendo el mismo criterio que
+`admin-nav.ts` — permiso primero, página cuando el módulo se construya
+completo.
+
+También se agregó `/catalogo` (búsqueda + filtro por categoría, sin
+paginación) porque el buscador del header de la landing necesitaba un
+destino real — no estaba en el alcance original de "construir la landing"
+pero es parte de la Fase 1 del `ROADMAP.md` de todos modos.
+
 ## Plantilla para futuras entradas
 
 ```md

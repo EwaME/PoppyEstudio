@@ -30,3 +30,21 @@
   tocar todavía (se actualiza módulo por módulo junto con su página, ver
   `ROADMAP.md`). Falta que el usuario corra `db:push`/`db:migrate` y
   `seed:rbac`.
+
+## 2026-08-03 (cont.)
+
+- **Landing page real construida**, reemplazando el placeholder de la
+  plantilla: Header, Hero, Productos Destacados, Categorías, Beneficios,
+  Cómo Realizamos tu Pedido, Galería, Blog, Testimonios (reemplaza el feed de
+  redes sociales de SRS §55, ver `DECISIONS.md`), CTA Final, Footer. Paleta y
+  tipografía de marca (Poppins) aplicadas solo al grupo `(marketing)`.
+  Framer Motion agregado para scroll-reveal y parallax del Hero.
+- Página `/catalogo` básica (búsqueda + filtro por categoría, sin
+  paginación).
+- Tabla nueva `testimonios` (28 tablas en total), permiso RBAC agregado,
+  migración generada (no aplicada — pendiente `db:push` + `seed:rbac` del
+  usuario).
+- Script `scripts/seed-content.ts` (`pnpm seed:content`) con contenido de
+  ejemplo: 8 categorías, 10 productos, 3 posts de blog, 6 piezas de galería,
+  6 testimonios y la fila de `configuracion` (datos de contacto placeholder,
+  marcados como ficticios).
