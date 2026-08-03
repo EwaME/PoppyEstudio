@@ -96,7 +96,7 @@ export function Header({ configuracion }: { configuracion: Configuracion | null 
             className="hidden bg-brand-primary text-foreground hover:bg-brand-primary-hover sm:inline-flex"
           >
             <a href={whatsappHref(configuracion?.whatsapp, mensajeWhatsapp)} target="_blank" rel="noopener noreferrer">
-              <MessageCircle /> Cotizar
+              <MessageCircle /> Escríbenos
             </a>
           </Button>
 
@@ -135,7 +135,7 @@ export function Header({ configuracion }: { configuracion: Configuracion | null 
               <div className="mt-auto px-4 pb-4">
                 <Button asChild className="w-full bg-brand-primary text-foreground hover:bg-brand-primary-hover">
                   <a href={whatsappHref(configuracion?.whatsapp, mensajeWhatsapp)} target="_blank" rel="noopener noreferrer">
-                    <MessageCircle /> Escribir por WhatsApp
+                    <MessageCircle /> Escríbenos
                   </a>
                 </Button>
               </div>
