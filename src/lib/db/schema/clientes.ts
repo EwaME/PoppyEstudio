@@ -1,4 +1,4 @@
-import { pgTable, uuid, text, numeric, timestamp, pgEnum } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, text, numeric, integer, boolean, timestamp, pgEnum } from 'drizzle-orm/pg-core';
 import { productos } from './catalogo';
 
 export const solicitudEstadoEnum = pgEnum('solicitud_estado', [
@@ -73,5 +73,19 @@ export const mensajesContacto = pgTable('mensajes_contacto', {
   asunto: text('asunto'),
   mensaje: text('mensaje').notNull(),
   estado: mensajeEstadoEnum('estado').default('nuevo').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+});
+
+// Solo lectura publica en V1 (SRS §118 lista "sistema de resenas" como
+// funcionalidad futura). Se puebla via seed/admin, no hay formulario publico
+// de envio todavia — evita moderacion/spam sin RLS disenado para eso.
+export const testimonios = pgTable('testimonios', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  nombreCliente: text('nombre_cliente').notNull(),
+  rol: text('rol'),
+  texto: text('texto').notNull(),
+  estrellas: integer('estrellas').notNull(),
+  destacado: boolean('destacado').default(false).notNull(),
+  activo: boolean('activo').default(true).notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 });
