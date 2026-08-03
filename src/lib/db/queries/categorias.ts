@@ -1,6 +1,6 @@
-import { eq } from 'drizzle-orm';
+import { and, eq, sql } from 'drizzle-orm';
 import { db } from '@/lib/db';
-import { categorias } from '@/lib/db/schema';
+import { categorias, productos } from '@/lib/db/schema';
 import type { CategoriaInput } from '@/lib/validations/categorias';
 
 export async function getCategorias() {
@@ -39,3 +39,22 @@ export async function activateCategoria(id: string) {
     .returning();
   return row;
 }
+
+export async function getCategoriasConConteo() {
+  return db
+    .select({
+      id: categorias.id,
+      nombre: categorias.nombre,
+      slug: categorias.slug,
+      descripcion: categorias.descripcion,
+      imagenUrl: categorias.imagenUrl,
+      totalProductos: sql<number>`count(${productos.id})::int`,
+    })
+    .from(categorias)
+    .leftJoin(productos, and(eq(productos.categoriaId, categorias.id), eq(productos.activo, true)))
+    .where(eq(categorias.activo, true))
+    .groupBy(categorias.id)
+    .orderBy(categorias.orden, categorias.nombre);
+}
+
+export type CategoriaConConteo = Awaited<ReturnType<typeof getCategoriasConConteo>>[number];
