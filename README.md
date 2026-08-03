@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OB Template
 
-## Getting Started
+Plantilla base de OB Solutions para proyectos web: panel de administracion CRUD
+completo (RBAC granular + auditoria) + landing/catalogo publico.
 
-First, run the development server:
+Arquitectura completa, convenciones y patrones documentados en **[RULES.md](./RULES.md)**
+— leelo antes de agregar un modulo nuevo.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Empezar un proyecto nuevo a partir de esta plantilla
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Copia esta carpeta completa a `C:\Proyectos OB\OB Solutions\<nombre-del-proyecto>`
+   (no uses `_template` como nombre del proyecto real).
+2. Actualiza `package.json` (`name`), `src/config/site.ts` (nombre, descripcion, URL)
+   y `src/config/colors.ts` (paleta de marca del cliente).
+3. Crea un proyecto en Supabase y copia las credenciales a `.env.local`
+   (ver `.env.example`).
+4. `pnpm install`
+5. `pnpm db:generate` → revisa el SQL generado en `drizzle/migrations/` → **corre
+   `pnpm db:push` u `pnpm db:migrate` vos mismo** (no lo corre Claude).
+6. `pnpm seed:rbac` — siembra el catalogo de permisos y crea el rol Administrador.
+7. En Supabase, crea tu usuario admin y asignale el rol Administrador insertando en
+   `user_roles` (`user_id` = id del usuario en `auth.users`, `role_id` = id del rol
+   Administrador).
+8. `pnpm dev` → `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Modulo de referencia
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`src/app/(admin)/admin/productos/` implementa el patron CRUD completo (page + client
++ actions + loading, con RBAC y audit log). Copialo y renombralo para cada entidad
+nueva — no reinventes la forma, seguí el patron descrito en RULES.md §5.
 
-## Learn More
+## Scripts
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Comando | Que hace |
+|---|---|
+| `pnpm dev` | Servidor de desarrollo |
+| `pnpm build` / `pnpm start` | Build y arranque de produccion |
+| `pnpm db:generate` | Genera SQL de migracion a partir del schema Drizzle |
+| `pnpm db:migrate` / `pnpm db:push` | Aplica migraciones — **correlo vos, no Claude** |
+| `pnpm db:studio` | Explorador visual de la base de datos |
+| `pnpm seed:rbac` | Siembra permisos y rol Administrador |
+| `pnpm dlx shadcn add <componente>` | Agrega un componente shadcn/ui nuevo |
