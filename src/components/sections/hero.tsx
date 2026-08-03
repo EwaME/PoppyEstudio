@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, MessageCircle, ChevronDown, Gift } from 'lucide-react';
+import { ArrowRight, MessageCircle, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ImagePlaceholder } from '@/components/shared/image-placeholder';
 import { EntityImage } from '@/components/shared/entity-image';
@@ -24,7 +24,7 @@ export function Hero({ configuracion }: { configuracion: Configuracion | null })
           label="Productos personalizados de Poppy Crafty"
           className="h-full w-full"
           fallback={
-            <ImagePlaceholder icon={Gift} label="Productos personalizados de Poppy Crafty" className="h-full w-full" />
+            <ImagePlaceholder label="Productos personalizados de Poppy Crafty" className="h-full w-full" />
           }
         />
       </motion.div>

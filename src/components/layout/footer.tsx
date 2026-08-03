@@ -20,23 +20,23 @@ export function Footer({
           <p className="font-heading text-lg font-bold text-brand-primary-hover">{siteConfig.name}</p>
           <p className="text-sm text-muted-foreground">{configuracion?.descripcion ?? siteConfig.description}</p>
           <div className="flex gap-3 pt-1">
-            {configuracion?.facebook && (
-              <a
-                href={configuracion.facebook}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Facebook"
-                className="text-muted-foreground hover:text-brand-primary-hover"
-              >
-                <ExternalLink className="size-5" />
-              </a>
-            )}
             {configuracion?.instagram && (
               <a
                 href={configuracion.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
+                className="text-muted-foreground hover:text-brand-primary-hover"
+              >
+                <ExternalLink className="size-5" />
+              </a>
+            )}
+            {configuracion?.tiktok && (
+              <a
+                href={configuracion.tiktok}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok"
                 className="text-muted-foreground hover:text-brand-primary-hover"
               >
                 <ExternalLink className="size-5" />

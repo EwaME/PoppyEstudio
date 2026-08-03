@@ -142,9 +142,8 @@ async function main() {
     email: 'contacto@poppycrafty.com',
     direccion: 'Choluteca, Honduras',
     horario: 'Lunes a sabado, 9:00am - 6:00pm',
-    facebook: 'https://facebook.com/poppycrafty',
-    instagram: 'https://instagram.com/poppycrafty',
-    tiktok: 'https://tiktok.com/@poppycrafty',
+    instagram: 'https://www.instagram.com/poppy.crafty?igsh=MWY4OWJzZHRzamtwYw==',
+    tiktok: 'https://www.tiktok.com/@poppy.estudio?_r=1&_t=ZS-98aF7Rcl3gH',
     whatsapp: '+504 8819-9499',
   });
 
