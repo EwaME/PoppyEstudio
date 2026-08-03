@@ -43,6 +43,7 @@ export const PERMISSIONS: PermissionDef[] = [
   ...fullCrud('blog_categorias', 'Categorias del Blog'),
   ...fullCrud('blog', 'Articulos del Blog'),
   ...fullCrud('galeria', 'Galeria'),
+  ...fullCrud('testimonios', 'Testimonios'),
   ...fullCrud('faq', 'Preguntas Frecuentes'),
   ...viewEdit('solicitudes', 'Solicitudes'),
   ...viewEdit('mensajes_contacto', 'Mensajes de Contacto'),
