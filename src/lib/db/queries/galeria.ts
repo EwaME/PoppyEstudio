@@ -11,4 +11,8 @@ export async function getGaleriaDestacada(limit = 6) {
     .limit(limit);
 }
 
+export async function getGaleriaActiva() {
+  return db.select().from(galeria).where(eq(galeria.activo, true)).orderBy(desc(galeria.createdAt));
+}
+
 export type GaleriaPieza = Awaited<ReturnType<typeof getGaleriaDestacada>>[number];
