@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   title: siteConfig.name,
   description: siteConfig.description,
   icons: {
-    icon: "/logopop.png",
+    icon: "/Logo.png",
   },
 };
 
