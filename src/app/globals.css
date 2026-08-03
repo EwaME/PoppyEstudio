@@ -48,12 +48,13 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 
   /* Marca — ver src/config/colors.ts (fuente canonica en TS) */
-  --color-brand-primary: #171717;
-  --color-brand-secondary: #404040;
-  --color-feedback-success: #16A34A;
-  --color-feedback-error: #DC2626;
-  --color-feedback-warning: #D97706;
-  --color-feedback-info: #0891B2;
+  --color-brand-primary: #F8BBD9;
+  --color-brand-primary-hover: #F48FB1;
+  --color-brand-secondary: #F7F3EF;
+  --color-feedback-success: #22C55E;
+  --color-feedback-error: #EF4444;
+  --color-feedback-warning: #F59E0B;
+  --color-feedback-info: #3B82F6;
 }
 
 :root {

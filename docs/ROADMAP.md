@@ -48,6 +48,12 @@ página por página.
 
 1. Sitio público: Inicio, Nosotros, Productos (catálogo + filtros + búsqueda),
    Producto individual, Blog, Artículo, Galería, Contacto, FAQ, Políticas, 404.
+   - [x] Inicio (landing completa, ver `CHANGELOG.md` y spec en
+     `docs/superpowers/specs/2026-08-03-landing-page-design.md`).
+   - [x] Productos: catálogo básico (`/catalogo`) con búsqueda y filtro por
+     categoría, sin paginación.
+   - [ ] Producto individual, Nosotros, Artículo de blog, Galería (página
+     propia), Contacto, FAQ, Políticas, 404 — pendientes.
 2. Panel administrativo: dashboard, CRUD de categorías/productos (con imágenes,
    opciones, SEO), CRUD de blog (categorías, posts, editor MDX), CRUD de
    galería, gestión de solicitudes/cotizaciones y mensajes de contacto,

@@ -11,7 +11,8 @@
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "db:push": "drizzle-kit push",
-    "seed:rbac": "tsx scripts/seed-rbac.ts"
+    "seed:rbac": "tsx scripts/seed-rbac.ts",
+    "seed:content": "tsx scripts/seed-content.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.5.1",
@@ -22,6 +23,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.45.2",
+    "framer-motion": "^12.43.0",
     "lucide-react": "^1.27.0",
     "next": "16.2.12",
     "next-themes": "^0.4.6",

@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm';
+import { and, eq, ilike, or } from 'drizzle-orm';
 import { db } from '@/lib/db';
 import { productos, categorias } from '@/lib/db/schema';
 import type { ProductoInput } from '@/lib/validations/productos';
@@ -57,3 +57,47 @@ export async function activateProducto(id: string) {
     .returning();
   return row;
 }
+
+const PRODUCTO_RESUMEN_SELECT = {
+  id: productos.id,
+  nombre: productos.nombre,
+  slug: productos.slug,
+  descripcionCorta: productos.descripcionCorta,
+  precioDesde: productos.precioDesde,
+  categoriaNombre: categorias.nombre,
+  categoriaSlug: categorias.slug,
+};
+
+export async function getProductosDestacados(limit = 6) {
+  return db
+    .select(PRODUCTO_RESUMEN_SELECT)
+    .from(productos)
+    .innerJoin(categorias, eq(categorias.id, productos.categoriaId))
+    .where(and(eq(productos.destacado, true), eq(productos.activo, true)))
+    .orderBy(productos.nombre)
+    .limit(limit);
+}
+
+export async function getProductosFiltrados({
+  q,
+  categoriaSlug,
+}: {
+  q?: string;
+  categoriaSlug?: string;
+}) {
+  const condiciones = [eq(productos.activo, true)];
+  if (categoriaSlug) condiciones.push(eq(categorias.slug, categoriaSlug));
+  if (q) {
+    const coincidencia = or(ilike(productos.nombre, `%${q}%`), ilike(productos.descripcionCorta, `%${q}%`));
+    if (coincidencia) condiciones.push(coincidencia);
+  }
+
+  return db
+    .select(PRODUCTO_RESUMEN_SELECT)
+    .from(productos)
+    .innerJoin(categorias, eq(categorias.id, productos.categoriaId))
+    .where(and(...condiciones))
+    .orderBy(productos.nombre);
+}
+
+export type ProductoResumen = Awaited<ReturnType<typeof getProductosDestacados>>[number];

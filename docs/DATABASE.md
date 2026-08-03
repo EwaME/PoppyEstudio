@@ -311,6 +311,24 @@ solicitud_adjuntos (id, solicitud_id FK, url, nombre NULL, created_at)
 
 `mensaje_estado`: `nuevo`, `leido`, `respondido`, `archivado`.
 
+### `testimonios`
+
+Solo lectura pública en V1 — SRS §118 lista "sistema de reseñas" como
+funcionalidad futura, y escritura pública abre moderación/spam/RLS no
+diseñados todavía. Reemplaza la sección "Redes Sociales / feed en vivo" de
+SRS §55 en la landing (ver `docs/DECISIONS.md`).
+
+| Campo | Tipo | Restricciones |
+|---|---|---|
+| id | uuid | PK |
+| nombre_cliente | text | NOT NULL |
+| rol | text | NULL |
+| texto | text | NOT NULL |
+| estrellas | integer | NOT NULL (1-5, validado en Zod si se agrega form admin) |
+| destacado | boolean | DEFAULT false |
+| activo | boolean | DEFAULT true |
+| created_at | timestamptz | NOT NULL |
+
 ---
 
 ## Módulo Sitio
@@ -462,7 +480,8 @@ Principio general (RULES.md §7 checklist, punto "RLS activo como segunda capa")
 - Lectura pública: `categorias`, `productos`, `producto_imagenes`,
   `producto_opciones`, `blog_categorias`, `blog_posts` (solo `publicado = true`
   y `activo = true`), `blog_tags`, `galeria` (solo `activo = true`), `faq`
-  (solo `publicado = true`), `configuracion`.
+  (solo `publicado = true`), `configuracion`, `testimonios` (solo
+  `destacado = true` y `activo = true`).
 - Escritura pública controlada (INSERT sin SELECT): `clientes`, `solicitudes`,
   `solicitud_adjuntos`, `mensajes_contacto` — un visitante puede crear una
   solicitud o mensaje, pero no leer las de otros.

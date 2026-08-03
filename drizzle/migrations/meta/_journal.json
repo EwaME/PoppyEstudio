@@ -8,6 +8,13 @@
       "when": 1785773993565,
       "tag": "0000_free_eternity",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1785781386185,
+      "tag": "0001_fat_pyro",
+      "breakpoints": true
     }
   ]
 }
