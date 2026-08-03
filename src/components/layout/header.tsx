@@ -59,7 +59,14 @@ export function Header({ configuracion }: { configuracion: Configuracion | null 
     >
       <div className="mx-auto flex h-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-8">
         <Link href="/" className="flex items-center">
-          <Image src="/Logo.png" alt={siteConfig.name} width={40} height={40} className="size-10 object-contain" priority />
+          <Image
+            src="/logomaleante.png"
+            alt={siteConfig.name}
+            width={725}
+            height={398}
+            className="h-9 w-auto object-contain"
+            priority
+          />
           <span className="sr-only">{siteConfig.name}</span>
         </Link>
 
