@@ -1,27 +1,31 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import Image from 'next/image';
-import type { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { ImagePlaceholder } from './image-placeholder';
 
-/** Muestra la foto real de /public/imgs si existe; si el archivo no esta subido todavia, cae al placeholder de gradiente+icono. */
+/**
+ * Muestra la foto real de /public/imgs si existe; si el archivo no esta
+ * subido todavia, cae a `fallback`. `fallback` se recibe ya renderizado
+ * (no un componente/funcion) porque este es un Client Component y React
+ * no permite pasar funciones desde un Server Component a traves de ese
+ * limite — el ImagePlaceholder+icono se arma en el llamador (server).
+ */
 export function EntityImage({
   src,
   label,
-  icon,
   className,
+  fallback,
 }: {
   src: string;
   label: string;
-  icon: LucideIcon;
   className?: string;
+  fallback: ReactNode;
 }) {
   const [failed, setFailed] = useState(false);
 
   if (failed) {
-    return <ImagePlaceholder icon={icon} label={label} className={className} />;
+    return <>{fallback}</>;
   }
 
   return (

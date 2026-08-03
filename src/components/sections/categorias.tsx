@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import { getCategoriasConConteo } from '@/lib/db/queries/categorias';
 import { ImagePlaceholder } from '@/components/shared/image-placeholder';
+import { EntityImage } from '@/components/shared/entity-image';
 import { Reveal } from '@/components/shared/reveal';
 import { getCategoryIcon } from '@/lib/helpers/category-icons';
+import { entityImagePath } from '@/lib/helpers/entity-image';
 
 export async function Categorias() {
   const categorias = await getCategoriasConConteo();
@@ -26,7 +28,12 @@ export async function Categorias() {
                   href={`/catalogo?categoria=${categoria.slug}`}
                   className="group flex flex-col items-center gap-3 rounded-xl border bg-background p-6 text-center transition-shadow hover:shadow-md"
                 >
-                  <ImagePlaceholder icon={Icon} label={categoria.nombre} className="size-16 rounded-full" />
+                  <EntityImage
+                    src={entityImagePath('categorias', categoria.slug)}
+                    label={categoria.nombre}
+                    className="size-16 rounded-full"
+                    fallback={<ImagePlaceholder icon={Icon} label={categoria.nombre} className="size-16 rounded-full" />}
+                  />
                   <p className="font-heading font-semibold">{categoria.nombre}</p>
                   <p className="text-xs text-muted-foreground">
                     {categoria.totalProductos} producto{categoria.totalProductos === 1 ? '' : 's'}
