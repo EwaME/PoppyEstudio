@@ -145,7 +145,7 @@ async function main() {
     facebook: 'https://facebook.com/poppycrafty',
     instagram: 'https://instagram.com/poppycrafty',
     tiktok: 'https://tiktok.com/@poppycrafty',
-    whatsapp: '+504 0000-0000',
+    whatsapp: '+504 8819-9499',
   });
 
   console.log('Listo. Contenido de ejemplo sembrado.');
