@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
@@ -58,11 +58,41 @@ const DEFAULT_VALUES: GaleriaInput = {
   destacado: false,
 };
 
+function Miniatura({ src, label, size = 'size-12' }: { src: string; label: string; size?: string }) {
+  if (!src) {
+    return (
+      <div className={`flex ${size} shrink-0 items-center justify-center rounded-lg bg-muted`}>
+        <Camera className="size-5 text-muted-foreground" />
+      </div>
+    );
+  }
+  return (
+    <Image
+      src={src}
+      alt={label}
+      width={48}
+      height={48}
+      className={`${size} shrink-0 rounded-lg object-cover`}
+    />
+  );
+}
+
 export function GaleriaAdminClient({ piezas, permissions }: Props) {
   const can = (slug: string) => permissions.includes(slug);
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<GaleriaPieza | null>(null);
   const [archivo, setArchivo] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!archivo) {
+      setPreviewUrl(null);
+      return;
+    }
+    const url = URL.createObjectURL(archivo);
+    setPreviewUrl(url);
+    return () => URL.revokeObjectURL(url);
+  }, [archivo]);
 
   const form = useForm<GaleriaInput>({
     resolver: zodResolver(galeriaSchema),
@@ -134,52 +164,30 @@ export function GaleriaAdminClient({ piezas, permissions }: Props) {
         {can('galeria.create') && <Button onClick={openCreate}>Nueva foto</Button>}
       </div>
 
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Foto</TableHead>
-              <TableHead>Titulo</TableHead>
-              <TableHead>Categoria</TableHead>
-              <TableHead>Destacado</TableHead>
-              <TableHead>Estado</TableHead>
-              <TableHead className="text-right">Acciones</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {piezas.length === 0 && (
-              <TableRow>
-                <TableCell colSpan={6} className="text-center text-muted-foreground">
-                  Sin fotos registradas.
-                </TableCell>
-              </TableRow>
-            )}
-            {piezas.map((pieza) => (
-              <TableRow key={pieza.id}>
-                <TableCell>
-                  {pieza.imagenUrl ? (
-                    <Image
-                      src={pieza.imagenUrl}
-                      alt={pieza.titulo}
-                      width={48}
-                      height={48}
-                      className="size-12 rounded object-cover"
-                    />
-                  ) : (
-                    <div className="flex size-12 items-center justify-center rounded bg-muted">
-                      <Camera className="size-5 text-muted-foreground" />
-                    </div>
-                  )}
-                </TableCell>
-                <TableCell>{pieza.titulo}</TableCell>
-                <TableCell>{pieza.categoria ?? '—'}</TableCell>
-                <TableCell>{pieza.destacado ? 'Si' : 'No'}</TableCell>
-                <TableCell>
-                  <Badge variant={pieza.activo ? 'default' : 'secondary'}>
+      {piezas.length === 0 && (
+        <p className="rounded-xl border bg-card p-6 text-center text-sm text-muted-foreground">
+          Sin fotos registradas.
+        </p>
+      )}
+
+      {/* Mobile: tarjetas apiladas */}
+      {piezas.length > 0 && (
+        <div className="grid gap-3 sm:hidden">
+          {piezas.map((pieza) => (
+            <div key={pieza.id} className="flex gap-3 rounded-xl border bg-card p-3 shadow-sm">
+              <Miniatura src={pieza.imagenUrl} label={pieza.titulo} size="size-14" />
+              <div className="min-w-0 flex-1 space-y-1">
+                <div className="flex items-start justify-between gap-2">
+                  <p className="truncate text-sm font-medium">{pieza.titulo}</p>
+                  <Badge variant={pieza.activo ? 'default' : 'secondary'} className="shrink-0">
                     {pieza.activo ? 'Activo' : 'Inactivo'}
                   </Badge>
-                </TableCell>
-                <TableCell className="flex justify-end gap-2 text-right">
+                </div>
+                <p className="truncate text-xs text-muted-foreground">
+                  {pieza.categoria ?? 'Sin categoria'}
+                  {pieza.destacado ? ' · Destacado' : ''}
+                </p>
+                <div className="flex gap-2 pt-1">
                   {can('galeria.edit') && (
                     <Button variant="outline" size="sm" onClick={() => openEdit(pieza)}>
                       Editar
@@ -190,12 +198,59 @@ export function GaleriaAdminClient({ piezas, permissions }: Props) {
                       {pieza.activo ? 'Desactivar' : 'Activar'}
                     </Button>
                   )}
-                </TableCell>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Desktop: tabla */}
+      {piezas.length > 0 && (
+        <div className="hidden overflow-hidden rounded-xl border bg-card sm:block">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Foto</TableHead>
+                <TableHead>Titulo</TableHead>
+                <TableHead>Categoria</TableHead>
+                <TableHead>Destacado</TableHead>
+                <TableHead>Estado</TableHead>
+                <TableHead className="text-right">Acciones</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+            </TableHeader>
+            <TableBody>
+              {piezas.map((pieza) => (
+                <TableRow key={pieza.id}>
+                  <TableCell>
+                    <Miniatura src={pieza.imagenUrl} label={pieza.titulo} />
+                  </TableCell>
+                  <TableCell>{pieza.titulo}</TableCell>
+                  <TableCell>{pieza.categoria ?? '—'}</TableCell>
+                  <TableCell>{pieza.destacado ? 'Si' : 'No'}</TableCell>
+                  <TableCell>
+                    <Badge variant={pieza.activo ? 'default' : 'secondary'}>
+                      {pieza.activo ? 'Activo' : 'Inactivo'}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="flex justify-end gap-2 text-right">
+                    {can('galeria.edit') && (
+                      <Button variant="outline" size="sm" onClick={() => openEdit(pieza)}>
+                        Editar
+                      </Button>
+                    )}
+                    {can('galeria.deactivate') && (
+                      <Button variant="outline" size="sm" onClick={() => onToggleActivo(pieza)}>
+                        {pieza.activo ? 'Desactivar' : 'Activar'}
+                      </Button>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      )}
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
@@ -212,6 +267,14 @@ export function GaleriaAdminClient({ piezas, permissions }: Props) {
                 accept="image/jpeg,image/png,image/webp"
                 onChange={(e) => setArchivo(e.target.files?.[0] ?? null)}
               />
+              {(previewUrl || editing?.imagenUrl) && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={previewUrl ?? editing!.imagenUrl}
+                  alt="Vista previa"
+                  className="mt-2 h-28 w-28 rounded-lg border object-cover"
+                />
+              )}
             </div>
 
             <div className="space-y-2">

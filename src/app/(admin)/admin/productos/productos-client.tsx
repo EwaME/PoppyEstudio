@@ -136,54 +136,89 @@ export function ProductosClient({ productos, categorias, permissions }: Props) {
         {can('productos.create') && <Button onClick={openCreate}>Nuevo producto</Button>}
       </div>
 
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Nombre</TableHead>
-              <TableHead>Categoria</TableHead>
-              <TableHead>Precio desde</TableHead>
-              <TableHead>Entrega</TableHead>
-              <TableHead>Estado</TableHead>
-              <TableHead className="text-right">Acciones</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {productos.length === 0 && (
+      {productos.length === 0 && (
+        <p className="rounded-xl border bg-card p-6 text-center text-sm text-muted-foreground">
+          Sin productos registrados.
+        </p>
+      )}
+
+      {/* Mobile: tarjetas apiladas */}
+      {productos.length > 0 && (
+        <div className="grid gap-3 sm:hidden">
+          {productos.map((producto) => (
+            <div key={producto.id} className="space-y-2 rounded-xl border bg-card p-3 shadow-sm">
+              <div className="flex items-start justify-between gap-2">
+                <p className="truncate text-sm font-medium">{producto.nombre}</p>
+                <Badge variant={producto.activo ? 'default' : 'secondary'} className="shrink-0">
+                  {producto.activo ? 'Activo' : 'Inactivo'}
+                </Badge>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {producto.categoriaNombre}
+                {producto.precioDesde != null ? ` · Desde L. ${producto.precioDesde}` : ''}
+                {producto.tiempoEntrega ? ` · ${producto.tiempoEntrega}` : ''}
+              </p>
+              <div className="flex gap-2 pt-1">
+                {can('productos.edit') && (
+                  <Button variant="outline" size="sm" onClick={() => openEdit(producto)}>
+                    Editar
+                  </Button>
+                )}
+                {can('productos.deactivate') && (
+                  <Button variant="outline" size="sm" onClick={() => onToggleActivo(producto)}>
+                    {producto.activo ? 'Desactivar' : 'Activar'}
+                  </Button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Desktop: tabla */}
+      {productos.length > 0 && (
+        <div className="hidden overflow-hidden rounded-xl border bg-card sm:block">
+          <Table>
+            <TableHeader>
               <TableRow>
-                <TableCell colSpan={6} className="text-center text-muted-foreground">
-                  Sin productos registrados.
-                </TableCell>
+                <TableHead>Nombre</TableHead>
+                <TableHead>Categoria</TableHead>
+                <TableHead>Precio desde</TableHead>
+                <TableHead>Entrega</TableHead>
+                <TableHead>Estado</TableHead>
+                <TableHead className="text-right">Acciones</TableHead>
               </TableRow>
-            )}
-            {productos.map((producto) => (
-              <TableRow key={producto.id}>
-                <TableCell>{producto.nombre}</TableCell>
-                <TableCell>{producto.categoriaNombre}</TableCell>
-                <TableCell>{producto.precioDesde != null ? `L. ${producto.precioDesde}` : '—'}</TableCell>
-                <TableCell>{producto.tiempoEntrega ?? '—'}</TableCell>
-                <TableCell>
-                  <Badge variant={producto.activo ? 'default' : 'secondary'}>
-                    {producto.activo ? 'Activo' : 'Inactivo'}
-                  </Badge>
-                </TableCell>
-                <TableCell className="flex justify-end gap-2 text-right">
-                  {can('productos.edit') && (
-                    <Button variant="outline" size="sm" onClick={() => openEdit(producto)}>
-                      Editar
-                    </Button>
-                  )}
-                  {can('productos.deactivate') && (
-                    <Button variant="outline" size="sm" onClick={() => onToggleActivo(producto)}>
-                      {producto.activo ? 'Desactivar' : 'Activar'}
-                    </Button>
-                  )}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+            </TableHeader>
+            <TableBody>
+              {productos.map((producto) => (
+                <TableRow key={producto.id}>
+                  <TableCell>{producto.nombre}</TableCell>
+                  <TableCell>{producto.categoriaNombre}</TableCell>
+                  <TableCell>{producto.precioDesde != null ? `L. ${producto.precioDesde}` : '—'}</TableCell>
+                  <TableCell>{producto.tiempoEntrega ?? '—'}</TableCell>
+                  <TableCell>
+                    <Badge variant={producto.activo ? 'default' : 'secondary'}>
+                      {producto.activo ? 'Activo' : 'Inactivo'}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="flex justify-end gap-2 text-right">
+                    {can('productos.edit') && (
+                      <Button variant="outline" size="sm" onClick={() => openEdit(producto)}>
+                        Editar
+                      </Button>
+                    )}
+                    {can('productos.deactivate') && (
+                      <Button variant="outline" size="sm" onClick={() => onToggleActivo(producto)}>
+                        {producto.activo ? 'Desactivar' : 'Activar'}
+                      </Button>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      )}
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
