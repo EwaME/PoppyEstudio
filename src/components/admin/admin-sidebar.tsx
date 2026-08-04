@@ -19,14 +19,6 @@ export function AdminSidebar({ permissions, displayName, email }: Props) {
 
   return (
     <nav className="flex w-60 flex-col border-r bg-sidebar text-sidebar-foreground">
-      <Link
-        href="/"
-        className="flex items-center gap-2 border-b px-4 py-3 text-sm text-muted-foreground transition-colors hover:text-foreground"
-      >
-        <ArrowLeft className="size-4" />
-        Volver a la tienda
-      </Link>
-
       <div className="flex flex-1 flex-col gap-1 p-4">
         {items.map((item) => {
           const active = pathname === item.href;
@@ -48,6 +40,14 @@ export function AdminSidebar({ permissions, displayName, email }: Props) {
           );
         })}
       </div>
+
+      <Link
+        href="/"
+        className="flex items-center gap-2 border-t px-4 py-3 text-sm text-muted-foreground transition-colors hover:text-foreground"
+      >
+        <ArrowLeft className="size-4" />
+        Volver a la tienda
+      </Link>
 
       <div className="flex items-center gap-2 border-t p-4">
         <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-primary text-sm font-semibold text-foreground">
