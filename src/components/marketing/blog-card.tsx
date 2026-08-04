@@ -1,9 +1,8 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Calendar, Clock, BookOpen } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { ImagePlaceholder } from '@/components/shared/image-placeholder';
-import { EntityImage } from '@/components/shared/entity-image';
-import { getBlogImagen } from '@/lib/helpers/entity-image';
 import type { BlogPostResumen } from '@/lib/db/queries/blog';
 
 export function BlogCard({ post }: { post: BlogPostResumen }) {
@@ -14,16 +13,16 @@ export function BlogCard({ post }: { post: BlogPostResumen }) {
         year: 'numeric',
       })
     : null;
-  const imagen = getBlogImagen(post.slug);
 
   return (
     <Card className="gap-0 overflow-hidden pt-0 transition-shadow hover:shadow-lg">
-      {imagen ? (
-        <EntityImage
-          src={imagen}
-          label={post.titulo}
-          className="aspect-video w-full"
-          fallback={<ImagePlaceholder icon={BookOpen} label={post.titulo} className="aspect-video w-full" />}
+      {post.imagenPortada ? (
+        <Image
+          src={post.imagenPortada}
+          alt={post.titulo}
+          width={400}
+          height={225}
+          className="aspect-video w-full object-cover"
         />
       ) : (
         <ImagePlaceholder icon={BookOpen} label={post.titulo} className="aspect-video w-full" />
