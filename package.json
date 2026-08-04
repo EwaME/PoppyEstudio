@@ -12,7 +12,10 @@
     "db:studio": "drizzle-kit studio",
     "db:push": "drizzle-kit push",
     "seed:rbac": "tsx scripts/seed-rbac.ts",
-    "seed:content": "tsx scripts/seed-content.ts"
+    "seed:content": "tsx scripts/seed-content.ts",
+    "seed:content:add": "tsx scripts/seed-content-add-productos.ts",
+    "update:contacto": "tsx scripts/update-configuracion-contacto.ts",
+    "seed:blog": "tsx scripts/seed-blog-posts.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.5.1",
@@ -32,6 +35,8 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-hook-form": "^7.83.0",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
     "server-only": "^0.0.1",
     "shadcn": "^4.15.0",
     "sonner": "^2.0.7",

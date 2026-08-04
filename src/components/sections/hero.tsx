@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, MessageCircle, ChevronDown, Gift } from 'lucide-react';
+import { ArrowRight, MessageCircle, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ImagePlaceholder } from '@/components/shared/image-placeholder';
+import { EntityImage } from '@/components/shared/entity-image';
 import { whatsappHref } from '@/lib/helpers/whatsapp';
 import type { Configuracion } from '@/lib/db/queries/configuracion';
 
@@ -18,10 +19,13 @@ export function Hero({ configuracion }: { configuracion: Configuracion | null })
     // transparente (ver src/components/layout/header.tsx).
     <section className="relative -mt-16 flex min-h-[90vh] items-center overflow-hidden pt-16">
       <motion.div style={{ y }} className="absolute inset-0 -z-10">
-        <ImagePlaceholder
-          icon={Gift}
+        <EntityImage
+          src="/imgs/hero.jpg"
           label="Productos personalizados de Poppy Crafty"
           className="h-full w-full"
+          fallback={
+            <ImagePlaceholder label="Productos personalizados de Poppy Crafty" className="h-full w-full" />
+          }
         />
       </motion.div>
 

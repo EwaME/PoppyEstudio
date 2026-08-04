@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Calendar, Clock, BookOpen } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { ImagePlaceholder } from '@/components/shared/image-placeholder';
@@ -15,7 +16,17 @@ export function BlogCard({ post }: { post: BlogPostResumen }) {
 
   return (
     <Card className="gap-0 overflow-hidden pt-0 transition-shadow hover:shadow-lg">
-      <ImagePlaceholder icon={BookOpen} label={post.titulo} className="aspect-video w-full" />
+      {post.imagenPortada ? (
+        <Image
+          src={post.imagenPortada}
+          alt={post.titulo}
+          width={400}
+          height={225}
+          className="aspect-video w-full object-cover"
+        />
+      ) : (
+        <ImagePlaceholder icon={BookOpen} label={post.titulo} className="aspect-video w-full" />
+      )}
       <CardContent className="space-y-2 pt-4">
         <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
           <span className="font-medium text-brand-primary-hover">{post.categoriaNombre}</span>

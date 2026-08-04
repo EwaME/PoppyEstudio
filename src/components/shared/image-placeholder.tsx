@@ -6,7 +6,7 @@ export function ImagePlaceholder({
   label,
   className,
 }: {
-  icon: LucideIcon;
+  icon?: LucideIcon;
   label: string;
   className?: string;
 }) {
@@ -19,7 +19,7 @@ export function ImagePlaceholder({
         className
       )}
     >
-      <Icon className="size-10 text-foreground/40" strokeWidth={1.5} />
+      {Icon && <Icon className="size-10 text-foreground/40" strokeWidth={1.5} />}
     </div>
   );
 }

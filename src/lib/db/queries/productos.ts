@@ -1,6 +1,6 @@
 import { and, eq, ilike, or } from 'drizzle-orm';
 import { db } from '@/lib/db';
-import { productos, categorias } from '@/lib/db/schema';
+import { productos, categorias, productoOpciones, productoRelacionados } from '@/lib/db/schema';
 import type { ProductoInput } from '@/lib/validations/productos';
 
 export async function getProductosConCategoria() {
@@ -81,9 +81,11 @@ export async function getProductosDestacados(limit = 6) {
 export async function getProductosFiltrados({
   q,
   categoriaSlug,
+  limit,
 }: {
   q?: string;
   categoriaSlug?: string;
+  limit?: number;
 }) {
   const condiciones = [eq(productos.activo, true)];
   if (categoriaSlug) condiciones.push(eq(categorias.slug, categoriaSlug));
@@ -92,12 +94,56 @@ export async function getProductosFiltrados({
     if (coincidencia) condiciones.push(coincidencia);
   }
 
-  return db
+  const base = db
     .select(PRODUCTO_RESUMEN_SELECT)
     .from(productos)
     .innerJoin(categorias, eq(categorias.id, productos.categoriaId))
     .where(and(...condiciones))
     .orderBy(productos.nombre);
+
+  return limit ? base.limit(limit) : base;
 }
 
 export type ProductoResumen = Awaited<ReturnType<typeof getProductosDestacados>>[number];
+
+export async function getProductoDetalle(slug: string) {
+  const [producto] = await db
+    .select({
+      id: productos.id,
+      nombre: productos.nombre,
+      slug: productos.slug,
+      descripcionCorta: productos.descripcionCorta,
+      descripcion: productos.descripcion,
+      precioDesde: productos.precioDesde,
+      tiempoEntrega: productos.tiempoEntrega,
+      seoTitle: productos.seoTitle,
+      seoDescription: productos.seoDescription,
+      categoriaNombre: categorias.nombre,
+      categoriaSlug: categorias.slug,
+    })
+    .from(productos)
+    .innerJoin(categorias, eq(categorias.id, productos.categoriaId))
+    .where(and(eq(productos.slug, slug), eq(productos.activo, true)))
+    .limit(1);
+  return producto ?? null;
+}
+
+export type ProductoDetalle = Awaited<ReturnType<typeof getProductoDetalle>>;
+
+export async function getProductoOpciones(productoId: string) {
+  return db
+    .select()
+    .from(productoOpciones)
+    .where(eq(productoOpciones.productoId, productoId))
+    .orderBy(productoOpciones.orden);
+}
+
+export async function getProductosRelacionados(productoId: string, limit = 4) {
+  return db
+    .select(PRODUCTO_RESUMEN_SELECT)
+    .from(productoRelacionados)
+    .innerJoin(productos, eq(productos.id, productoRelacionados.productoRelacionadoId))
+    .innerJoin(categorias, eq(categorias.id, productos.categoriaId))
+    .where(and(eq(productoRelacionados.productoId, productoId), eq(productos.activo, true)))
+    .limit(limit);
+}

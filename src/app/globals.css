@@ -126,6 +126,33 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* Tema del panel admin — mismos tokens de shadcn (Button/Badge/Table/Dialog
+   los heredan sin tocar esos archivos), pero con la paleta de marca en vez
+   del gris/negro por defecto. Scoped a .admin-theme (ver (admin)/layout.tsx)
+   para no afectar el sitio publico, que usa sus propios tokens bg-brand-*. */
+.admin-theme {
+  --primary: #F48FB1;
+  --primary-foreground: #1F1B1A;
+  --secondary: #FBE3EC;
+  --secondary-foreground: #7A3F56;
+  --muted: #F5ECE7;
+  --muted-foreground: #8A7B74;
+  --accent: #FBE3EC;
+  --accent-foreground: #7A3F56;
+  --border: #ECE0E2;
+  --input: #ECE0E2;
+  --ring: #F48FB1;
+  --radius: 0.85rem;
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #2B2B2B;
+  --sidebar-primary: #F48FB1;
+  --sidebar-primary-foreground: #1F1B1A;
+  --sidebar-accent: #FBE3EC;
+  --sidebar-accent-foreground: #7A3F56;
+  --sidebar-border: #ECE0E2;
+  --sidebar-ring: #F48FB1;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
