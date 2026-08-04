@@ -57,11 +57,17 @@ export function AdminSidebar({ permissions, displayName, email }: Props) {
           aria-label={collapsed ? 'Expandir sidebar' : 'Colapsar sidebar'}
           className={cn(
             'flex size-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-foreground',
-            collapsed && 'mx-auto size-9'
+            collapsed && 'mx-auto h-auto w-10'
           )}
         >
           {collapsed ? (
-            <Image src="/Logo.png" alt="Expandir sidebar" width={36} height={36} className="size-9 object-contain" />
+            <Image
+              src="/logomaleante.png"
+              alt="Expandir sidebar"
+              width={140}
+              height={77}
+              className="w-10 object-contain"
+            />
           ) : (
             <PanelLeftClose className="size-4" />
           )}
