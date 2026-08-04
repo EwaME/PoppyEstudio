@@ -9,6 +9,7 @@ import { ComoPedimos } from '@/components/sections/como-pedimos';
 import { Galeria } from '@/components/sections/galeria';
 import { Blog } from '@/components/sections/blog';
 import { Testimonios } from '@/components/sections/testimonios';
+import { PersonalizaBanda } from '@/components/sections/personaliza-banda';
 import { CTAFinal } from '@/components/sections/cta-final';
 
 export const metadata: Metadata = {
@@ -54,6 +55,7 @@ export default async function HomePage() {
       <Galeria />
       <Blog />
       <Testimonios />
+      <PersonalizaBanda configuracion={configuracion} />
       <CTAFinal configuracion={configuracion} />
     </>
   );

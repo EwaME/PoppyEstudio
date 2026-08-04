@@ -12,7 +12,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         {children}
-        <Toaster richColors position="top-right" />
+        <Toaster richColors closeButton position="top-left" offset={{ top: 88 }} />
       </TooltipProvider>
     </QueryClientProvider>
   );

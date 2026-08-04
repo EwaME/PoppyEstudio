@@ -24,6 +24,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { NavbarSearch } from '@/components/layout/navbar-search';
+import { CartDrawer } from '@/components/marketing/cart-drawer';
 import { cn } from '@/lib/utils';
 import { siteConfig } from '@/config/site';
 import { whatsappHref } from '@/lib/helpers/whatsapp';
@@ -92,6 +93,8 @@ export function Header({ configuracion }: { configuracion: Configuracion | null 
 
         <div className="flex items-center gap-2">
           <NavbarSearch containerClassName="hidden md:block" inputClassName="w-48 lg:w-64" />
+
+          <CartDrawer whatsapp={configuracion?.whatsapp} />
 
           <Button
             asChild
