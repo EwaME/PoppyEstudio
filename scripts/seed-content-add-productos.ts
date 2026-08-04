@@ -29,6 +29,7 @@ async function main() {
     { nombre: 'Globos Decorativos', slug: 'globos-decorativos', descripcion: 'Globos decorativos personalizados para toda ocasion.', orden: 11 },
     { nombre: 'Cabezones Graduados', slug: 'cabezones-graduados', descripcion: 'Cabezones personalizados para graduaciones.', orden: 12 },
     { nombre: 'Bolsas de Regalo', slug: 'bolsas-de-regalo', descripcion: 'Bolsas de regalo personalizadas para cualquier ocasion.', orden: 13 },
+    { nombre: 'Peluches de Fieltro', slug: 'peluches-de-fieltro', descripcion: 'Peluches de fieltro hechos a mano.', orden: 14 },
   ];
   await db.insert(categorias).values(categoriasData).onConflictDoNothing({ target: categorias.slug });
 
@@ -45,6 +46,7 @@ async function main() {
     { categoriaSlug: 'globos-decorativos', nombre: 'Globo decorativo personalizado', descripcionCorta: 'Globo con diseno o frase para decorar tu celebracion.', precioDesde: 90, tiempoEntrega: '2-3 dias', destacado: false },
     { categoriaSlug: 'cabezones-graduados', nombre: 'Cabezon de graduacion personalizado', descripcionCorta: 'Cabezon con la foto del graduado en tamano real.', precioDesde: 280, tiempoEntrega: '3-5 dias', destacado: false },
     { categoriaSlug: 'bolsas-de-regalo', nombre: 'Bolsa de regalo personalizada', descripcionCorta: 'Bolsa de regalo con diseno o frase a tu gusto.', precioDesde: 70, tiempoEntrega: '1-3 dias', destacado: false },
+    { categoriaSlug: 'peluches-de-fieltro', nombre: 'Peluche de fieltro personalizado', descripcionCorta: 'Peluche hecho a mano en fieltro, a tu gusto.', precioDesde: 180, tiempoEntrega: '4-6 dias', destacado: false },
   ];
   await db
     .insert(productos)

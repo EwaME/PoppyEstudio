@@ -19,27 +19,40 @@ export async function Categorias() {
             <p className="mt-2 text-muted-foreground">Encontrá el producto perfecto para tu ocasión.</p>
           </div>
         </Reveal>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="flex flex-wrap justify-center gap-x-4 gap-y-8">
           {categorias.map((categoria, index) => {
             const Icon = getCategoryIcon(categoria.slug);
             const imagen = getCategoriaImagen(categoria.slug);
             return (
-              <Reveal key={categoria.id} delay={index * 0.04}>
-                <Link
-                  href={`/catalogo?categoria=${categoria.slug}`}
-                  className="group flex flex-col items-center gap-3 rounded-xl border bg-background p-6 text-center transition-shadow hover:shadow-md"
-                >
+              <Reveal
+                key={categoria.id}
+                delay={index * 0.04}
+                className="w-[calc((100%-1rem)/2)] sm:w-[calc((100%-2rem)/3)] lg:w-[calc((100%-3rem)/4)]"
+              >
+                <Link href={`/catalogo?categoria=${categoria.slug}`} className="group flex flex-col items-center gap-3 text-center">
                   {imagen ? (
                     <EntityImage
                       src={imagen}
                       label={categoria.nombre}
-                      className="size-16 rounded-full"
-                      fallback={<ImagePlaceholder icon={Icon} label={categoria.nombre} className="size-16 rounded-full" />}
+                      className="size-20 rounded-full shadow-sm transition-transform duration-300 group-hover:scale-105"
+                      fallback={
+                        <ImagePlaceholder
+                          icon={Icon}
+                          label={categoria.nombre}
+                          className="size-20 rounded-full shadow-sm transition-transform duration-300 group-hover:scale-105"
+                        />
+                      }
                     />
                   ) : (
-                    <ImagePlaceholder icon={Icon} label={categoria.nombre} className="size-16 rounded-full" />
+                    <ImagePlaceholder
+                      icon={Icon}
+                      label={categoria.nombre}
+                      className="size-20 rounded-full shadow-sm transition-transform duration-300 group-hover:scale-105"
+                    />
                   )}
-                  <p className="font-heading font-semibold">{categoria.nombre}</p>
+                  <p className="font-heading font-semibold transition-colors group-hover:text-brand-primary-hover">
+                    {categoria.nombre}
+                  </p>
                 </Link>
               </Reveal>
             );

@@ -9,6 +9,9 @@ import { EntityImage } from '@/components/shared/entity-image';
 import { whatsappHref } from '@/lib/helpers/whatsapp';
 import type { Configuracion } from '@/lib/db/queries/configuracion';
 
+// Subir la foto real a public/imgs/hero.jpg y poner la ruta aca cuando este lista.
+const HERO_IMAGEN: string | null = null;
+
 export function Hero({ configuracion }: { configuracion: Configuracion | null }) {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 600], [0, 80]);
@@ -19,14 +22,18 @@ export function Hero({ configuracion }: { configuracion: Configuracion | null })
     // transparente (ver src/components/layout/header.tsx).
     <section className="relative -mt-16 flex min-h-[90vh] items-center overflow-hidden pt-16">
       <motion.div style={{ y }} className="absolute inset-0 -z-10">
-        <EntityImage
-          src="/imgs/hero.jpg"
-          label="Productos personalizados de Poppy Crafty"
-          className="h-full w-full"
-          fallback={
-            <ImagePlaceholder label="Productos personalizados de Poppy Crafty" className="h-full w-full" />
-          }
-        />
+        {HERO_IMAGEN ? (
+          <EntityImage
+            src={HERO_IMAGEN}
+            label="Productos personalizados de Poppy Crafty"
+            className="h-full w-full"
+            fallback={
+              <ImagePlaceholder label="Productos personalizados de Poppy Crafty" className="h-full w-full" />
+            }
+          />
+        ) : (
+          <ImagePlaceholder label="Productos personalizados de Poppy Crafty" className="h-full w-full" />
+        )}
       </motion.div>
 
       <div className="mx-auto max-w-6xl px-4 py-20 sm:px-8">
@@ -37,7 +44,7 @@ export function Hero({ configuracion }: { configuracion: Configuracion | null })
           className="max-w-2xl space-y-5"
         >
           <h1 className="font-heading text-4xl font-bold sm:text-5xl">
-            Creamos detalles personalizados que convierten tus momentos especiales en recuerdos inolvidables.
+            Bienvenido a Poppy, donde cada detalle se crea pensando en ti.
           </h1>
           <p className="text-lg text-foreground/80">
             Personalizamos camisas, tazas, toppers, coronas, cajas, stickers y mucho más para hacer única cada
