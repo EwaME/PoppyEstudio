@@ -8,7 +8,15 @@ const variants: Variants = {
   visible: { opacity: 1, y: 0 },
 };
 
-export function Reveal({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
+export function Reveal({
+  children,
+  delay = 0,
+  className,
+}: {
+  children: ReactNode;
+  delay?: number;
+  className?: string;
+}) {
   return (
     <motion.div
       initial="hidden"
@@ -16,6 +24,7 @@ export function Reveal({ children, delay = 0 }: { children: ReactNode; delay?: n
       viewport={{ once: true, margin: '-80px' }}
       transition={{ duration: 0.5, delay, ease: 'easeOut' }}
       variants={variants}
+      className={className}
     >
       {children}
     </motion.div>

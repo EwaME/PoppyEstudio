@@ -33,7 +33,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   return (
-    <div className="admin-theme flex min-h-screen bg-brand-secondary">
+    <div className="admin-theme flex min-h-screen flex-col bg-brand-secondary md:flex-row">
       <AdminSidebar permissions={permissions} displayName={displayName} email={email} />
       <main className="flex-1 p-4 sm:p-6">{children}</main>
     </div>

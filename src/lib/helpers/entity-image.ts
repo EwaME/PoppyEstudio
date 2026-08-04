@@ -22,6 +22,7 @@ const PRODUCTO_IMAGENES: EntityImageMap = {
   'globo-decorativo-personalizado': '/imgs/globo.jpeg',
   'cabezon-de-graduacion-personalizado': '/imgs/graduado.jpeg',
   'bolsa-de-regalo-personalizada': '/imgs/bolsa.jpeg',
+  'peluche-de-fieltro-personalizado': '/imgs/PelucheFieltro.png',
 };
 
 const CATEGORIA_IMAGENES: EntityImageMap = {};

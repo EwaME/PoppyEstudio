@@ -4,7 +4,17 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Menu, MessageCircle } from 'lucide-react';
+import {
+  Menu,
+  MessageCircle,
+  House,
+  ShoppingBag,
+  Heart,
+  Images,
+  Newspaper,
+  Phone,
+  type LucideIcon,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -19,18 +29,19 @@ import { siteConfig } from '@/config/site';
 import { whatsappHref } from '@/lib/helpers/whatsapp';
 import type { Configuracion } from '@/lib/db/queries/configuracion';
 
-const NAV_LINKS = [
-  { href: '/', label: 'Inicio' },
-  { href: '/catalogo', label: 'Catálogo' },
-  { href: '/nosotros', label: 'Nosotros' },
-  { href: '/galeria', label: 'Galería' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/contacto', label: 'Contacto' },
+const NAV_LINKS: { href: string; label: string; icon: LucideIcon }[] = [
+  { href: '/', label: 'Inicio', icon: House },
+  { href: '/catalogo', label: 'Catálogo', icon: ShoppingBag },
+  { href: '/nosotros', label: 'Nosotros', icon: Heart },
+  { href: '/galeria', label: 'Galería', icon: Images },
+  { href: '/blog', label: 'Blog', icon: Newspaper },
+  { href: '/contacto', label: 'Contacto', icon: Phone },
 ];
 
 export function Header({ configuracion }: { configuracion: Configuracion | null }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const isHome = pathname === '/';
 
   useEffect(() => {
@@ -92,29 +103,58 @@ export function Header({ configuracion }: { configuracion: Configuracion | null 
             </a>
           </Button>
 
-          <Sheet>
+          <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Abrir menú">
                 <Menu />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="flex flex-col">
-              <SheetHeader>
-                <SheetTitle>{siteConfig.name}</SheetTitle>
+            <SheetContent side="right" className="flex w-80 flex-col gap-0 bg-background p-0">
+              <SheetHeader className="border-b bg-background px-6 py-5">
+                <SheetTitle asChild>
+                  <Image
+                    src="/logomaleante.png"
+                    alt={siteConfig.name}
+                    width={160}
+                    height={88}
+                    className="h-10 w-auto object-contain"
+                  />
+                </SheetTitle>
               </SheetHeader>
-              <nav className="flex flex-col gap-1 px-4">
-                {NAV_LINKS.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="rounded-md px-3 py-2 text-sm font-medium hover:bg-muted"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+
+              <nav className="flex flex-col gap-1.5 overflow-y-auto p-4">
+                {NAV_LINKS.map((link) => {
+                  const Icon = link.icon;
+                  const active = pathname === link.href;
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMenuOpen(false)}
+                      aria-current={active ? 'page' : undefined}
+                      className={cn(
+                        'flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors',
+                        active
+                          ? 'bg-brand-primary text-foreground shadow-sm'
+                          : 'text-foreground/80 hover:bg-brand-primary/30'
+                      )}
+                    >
+                      <Icon className="size-4.5 shrink-0" />
+                      {link.label}
+                    </Link>
+                  );
+                })}
               </nav>
-              <NavbarSearch containerClassName="px-4" iconClassName="left-6.5" />
-              <div className="mt-auto px-4 pb-4">
+
+              <div className="px-4 pb-2">
+                <NavbarSearch
+                  containerClassName=""
+                  inputClassName="bg-background"
+                  onNavigate={() => setMenuOpen(false)}
+                />
+              </div>
+
+              <div className="mt-auto border-t bg-background p-4">
                 <Button asChild className="w-full bg-brand-primary text-foreground hover:bg-brand-primary-hover">
                   <a href={whatsappHref(configuracion?.whatsapp, mensajeWhatsapp)} target="_blank" rel="noopener noreferrer">
                     <MessageCircle /> Escríbenos

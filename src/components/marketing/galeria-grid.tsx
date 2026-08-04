@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Camera } from 'lucide-react';
 import { ImagePlaceholder } from '@/components/shared/image-placeholder';
@@ -11,14 +11,42 @@ export function GaleriaGrid({ piezas }: { piezas: GaleriaPieza[] }) {
   return (
     <div className="grid grid-cols-2 gap-6 sm:grid-cols-3">
       {piezas.map((pieza, index) => (
-        <GaleriaCard key={pieza.id} pieza={pieza} tilt={index % 2 === 0 ? '-rotate-2' : 'rotate-2'} />
+        <GaleriaCard
+          key={pieza.id}
+          pieza={pieza}
+          tilt={index % 2 === 0 ? '-rotate-2' : 'rotate-2'}
+          peekOffsetMs={index * 1700}
+        />
       ))}
     </div>
   );
 }
 
-function GaleriaCard({ pieza, tilt }: { pieza: GaleriaPieza; tilt: string }) {
+function GaleriaCard({
+  pieza,
+  tilt,
+  peekOffsetMs,
+}: {
+  pieza: GaleriaPieza;
+  tilt: string;
+  peekOffsetMs: number;
+}) {
   const [flipped, setFlipped] = useState(false);
+  const [peeking, setPeeking] = useState(false);
+
+  useEffect(() => {
+    if (flipped) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let peekTimeout: ReturnType<typeof setTimeout>;
+    const interval = setInterval(() => {
+      setPeeking(true);
+      peekTimeout = setTimeout(() => setPeeking(false), 700);
+    }, 9000 + peekOffsetMs);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(peekTimeout);
+    };
+  }, [flipped, peekOffsetMs]);
 
   return (
     <button
@@ -30,7 +58,8 @@ function GaleriaCard({ pieza, tilt }: { pieza: GaleriaPieza; tilt: string }) {
       <div
         className={cn(
           'relative aspect-4/5 w-full transition-transform duration-500 transform-3d',
-          flipped && 'transform-[rotateY(180deg)]'
+          flipped && 'transform-[rotateY(180deg)]',
+          !flipped && peeking && 'transform-[rotateY(18deg)]'
         )}
       >
         <div
