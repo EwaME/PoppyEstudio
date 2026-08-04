@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { ImagePlaceholder } from '@/components/shared/image-placeholder';
 import { EntityImage } from '@/components/shared/entity-image';
 import { ProductCard } from '@/components/marketing/product-card';
+import { AddToCart } from '@/components/marketing/add-to-cart';
 import { getProductoDetalle, getProductoOpciones, getProductosRelacionados } from '@/lib/db/queries/productos';
 import { getFaqProducto } from '@/lib/db/queries/faq';
 import { getConfiguracion } from '@/lib/db/queries/configuracion';
@@ -118,6 +119,8 @@ export default async function ProductoDetallePage({
               <MessageCircle /> Cotizar este producto por WhatsApp
             </a>
           </Button>
+
+          <AddToCart slug={producto.slug} nombre={producto.nombre} precioDesde={producto.precioDesde} />
         </div>
       </div>
 
