@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Package, Tags, Images, MessageCircle } from 'lucide-react';
 import { requirePagePermission } from '@/lib/rbac/require-page-permission';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ProductosPorCategoriaChart, SolicitudesSemanaChart } from '@/components/admin/dashboard-charts';
 
 export const metadata: Metadata = { title: 'Dashboard' };
 
@@ -31,6 +32,11 @@ export default async function AdminDashboardPage() {
             </CardContent>
           </Card>
         ))}
+      </div>
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        <ProductosPorCategoriaChart />
+        <SolicitudesSemanaChart />
       </div>
 
       <p className="text-sm text-muted-foreground">
