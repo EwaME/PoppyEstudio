@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import { Heart, Sparkles, Gem, Clock, Scissors, Target, Eye } from 'lucide-react';
+import Image from 'next/image';
+import { Heart, Sparkles, Gem, Clock, Target, Eye } from 'lucide-react';
 import { getConfiguracion } from '@/lib/db/queries/configuracion';
-import { ImagePlaceholder } from '@/components/shared/image-placeholder';
 import { Reveal } from '@/components/shared/reveal';
 import { CTAFinal } from '@/components/sections/cta-final';
 
@@ -32,11 +32,15 @@ export default async function NosotrosPage() {
       <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-8">
         <div className="grid gap-10 md:grid-cols-2 md:items-center">
           <Reveal>
-            <ImagePlaceholder
-              icon={Scissors}
-              label="El taller de Poppy Crafty en Choluteca"
-              className="aspect-video w-full rounded-2xl"
-            />
+            <div className="relative aspect-video w-full overflow-hidden rounded-2xl">
+              <Image
+                src="/imgs/PoppyNosotros.jpg"
+                alt="El taller de Poppy Crafty en Choluteca"
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="object-cover"
+              />
+            </div>
           </Reveal>
           <Reveal delay={0.1}>
             <div className="space-y-4">
