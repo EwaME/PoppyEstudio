@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { ArrowLeft, LogOut, PanelLeftClose } from 'lucide-react';
+import { LogOut, PanelLeftClose, Store } from 'lucide-react';
 import { ADMIN_NAV } from '@/config/admin-nav';
 import { cn } from '@/lib/utils';
 import { logoutAction } from '@/app/(admin)/logout-action';
@@ -106,7 +106,7 @@ export function AdminSidebar({ permissions, displayName, email }: Props) {
           collapsed && 'justify-center px-0'
         )}
       >
-        <ArrowLeft className="size-4 shrink-0" />
+        <Store className="size-4 shrink-0" />
         {!collapsed && 'Volver a la tienda'}
       </Link>
 
