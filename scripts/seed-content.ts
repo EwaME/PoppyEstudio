@@ -138,7 +138,7 @@ async function main() {
     slogan: 'Detalles personalizados para momentos inolvidables',
     descripcion:
       'Personalizacion de camisas, tazas, stickers y regalos para eventos y celebraciones en Choluteca, Honduras.',
-    telefono: '+504 0000-0000',
+    telefono: '+504 3250-5304',
     email: 'contacto@poppycrafty.com',
     direccion: 'Choluteca, Honduras',
     horario: 'Lunes a sabado, 9:00am - 6:00pm',

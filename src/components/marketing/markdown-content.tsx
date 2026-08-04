@@ -25,8 +25,8 @@ export function MarkdownContent({ contenido }: { contenido: string }) {
               {children}
             </blockquote>
           ),
-          // eslint-disable-next-line @next/next/no-img-element
           img: ({ src, alt }) => (
+            // eslint-disable-next-line @next/next/no-img-element -- src viene de markdown, host no configurado en next/image
             <img
               src={typeof src === 'string' ? src : undefined}
               alt={alt ?? ''}

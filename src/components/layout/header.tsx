@@ -2,11 +2,10 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useState, type FormEvent } from 'react';
-import { Menu, Search, MessageCircle } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { Menu, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import {
   Sheet,
   SheetContent,
@@ -14,6 +13,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import { NavbarSearch } from '@/components/layout/navbar-search';
 import { cn } from '@/lib/utils';
 import { siteConfig } from '@/config/site';
 import { whatsappHref } from '@/lib/helpers/whatsapp';
@@ -24,14 +24,13 @@ const NAV_LINKS = [
   { href: '/catalogo', label: 'Catálogo' },
   { href: '/nosotros', label: 'Nosotros' },
   { href: '/galeria', label: 'Galería' },
+  { href: '/blog', label: 'Blog' },
   { href: '/contacto', label: 'Contacto' },
 ];
 
 export function Header({ configuracion }: { configuracion: Configuracion | null }) {
   const pathname = usePathname();
-  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
-  const [query, setQuery] = useState('');
   const isHome = pathname === '/';
 
   useEffect(() => {
@@ -40,12 +39,6 @@ export function Header({ configuracion }: { configuracion: Configuracion | null 
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
-
-  function handleSearch(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const trimmed = query.trim();
-    router.push(trimmed ? `/catalogo?q=${encodeURIComponent(trimmed)}` : '/catalogo');
-  }
 
   const solid = scrolled || !isHome;
   const mensajeWhatsapp = 'Hola, quiero cotizar un producto personalizado.';
@@ -64,7 +57,7 @@ export function Header({ configuracion }: { configuracion: Configuracion | null 
             alt={siteConfig.name}
             width={725}
             height={398}
-            className="h-9 w-auto object-contain"
+            className={cn('w-auto object-contain transition-all duration-300', solid ? 'h-12' : 'h-16')}
             priority
           />
           <span className="sr-only">{siteConfig.name}</span>
@@ -87,17 +80,7 @@ export function Header({ configuracion }: { configuracion: Configuracion | null 
         </nav>
 
         <div className="flex items-center gap-2">
-          <form onSubmit={handleSearch} className="relative hidden md:block">
-            <Search className="absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              type="search"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Buscar productos..."
-              aria-label="Buscar productos"
-              className="w-48 pl-8 lg:w-64"
-            />
-          </form>
+          <NavbarSearch containerClassName="hidden md:block" inputClassName="w-48 lg:w-64" />
 
           <Button
             asChild
@@ -130,17 +113,7 @@ export function Header({ configuracion }: { configuracion: Configuracion | null 
                   </Link>
                 ))}
               </nav>
-              <form onSubmit={handleSearch} className="relative px-4">
-                <Search className="absolute top-1/2 left-6.5 size-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  type="search"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Buscar productos..."
-                  aria-label="Buscar productos"
-                  className="pl-8"
-                />
-              </form>
+              <NavbarSearch containerClassName="px-4" iconClassName="left-6.5" />
               <div className="mt-auto px-4 pb-4">
                 <Button asChild className="w-full bg-brand-primary text-foreground hover:bg-brand-primary-hover">
                   <a href={whatsappHref(configuracion?.whatsapp, mensajeWhatsapp)} target="_blank" rel="noopener noreferrer">

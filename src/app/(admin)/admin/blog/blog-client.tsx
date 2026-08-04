@@ -303,8 +303,7 @@ export function BlogAdminClient({ posts, categorias, permissions }: Props) {
                 id="publicado"
                 type="checkbox"
                 className="size-4 rounded border-input"
-                checked={form.watch('publicado')}
-                onChange={(e) => form.setValue('publicado', e.target.checked)}
+                {...form.register('publicado')}
               />
               <Label htmlFor="publicado">Publicado</Label>
             </div>

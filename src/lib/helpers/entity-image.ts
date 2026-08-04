@@ -17,6 +17,11 @@ const PRODUCTO_IMAGENES: EntityImageMap = {
   'topper-personalizado-para-pastel': '/imgs/Topper.png',
   'invitaciones-digitales-personalizadas': '/imgs/carta.png',
   'kit-de-decoracion-tematica': '/imgs/kitCumpleanos.jpeg',
+  'esfera-personalizada': '/imgs/esfera.jpeg',
+  'caja-personalizada': '/imgs/caja.jpeg',
+  'globo-decorativo-personalizado': '/imgs/globo.jpeg',
+  'cabezon-de-graduacion-personalizado': '/imgs/graduado.jpeg',
+  'bolsa-de-regalo-personalizada': '/imgs/bolsa.jpeg',
 };
 
 const CATEGORIA_IMAGENES: EntityImageMap = {};

@@ -19,6 +19,7 @@ export function ContactoForm({ whatsapp }: { whatsapp: string }) {
       `Hola, soy ${nombre}.`,
       telefono ? `Mi teléfono es ${telefono}.` : null,
       mensaje,
+      '¿Me ayudás?',
     ].filter(Boolean);
     window.open(whatsappHref(whatsapp, partes.join(' ')), '_blank', 'noopener,noreferrer');
   }

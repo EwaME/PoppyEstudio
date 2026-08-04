@@ -81,9 +81,11 @@ export async function getProductosDestacados(limit = 6) {
 export async function getProductosFiltrados({
   q,
   categoriaSlug,
+  limit,
 }: {
   q?: string;
   categoriaSlug?: string;
+  limit?: number;
 }) {
   const condiciones = [eq(productos.activo, true)];
   if (categoriaSlug) condiciones.push(eq(categorias.slug, categoriaSlug));
@@ -92,12 +94,14 @@ export async function getProductosFiltrados({
     if (coincidencia) condiciones.push(coincidencia);
   }
 
-  return db
+  const base = db
     .select(PRODUCTO_RESUMEN_SELECT)
     .from(productos)
     .innerJoin(categorias, eq(categorias.id, productos.categoriaId))
     .where(and(...condiciones))
     .orderBy(productos.nombre);
+
+  return limit ? base.limit(limit) : base;
 }
 
 export type ProductoResumen = Awaited<ReturnType<typeof getProductosDestacados>>[number];

@@ -1,9 +1,17 @@
-import { getBlogPostsRecientes } from '@/lib/db/queries/blog';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
+import { getBlogPostsPorSlugs } from '@/lib/db/queries/blog';
 import { BlogCard } from '@/components/marketing/blog-card';
 import { Reveal } from '@/components/shared/reveal';
 
+const SLUGS_DESTACADOS = [
+  'coronas-personalizadas-de-fomi',
+  'como-hacer-un-portaplatos-para-fiestas',
+  'guia-completa-de-cricut-materiales-tapetes-y-cuidados',
+];
+
 export async function Blog() {
-  const posts = await getBlogPostsRecientes(3);
+  const posts = await getBlogPostsPorSlugs(SLUGS_DESTACADOS);
   if (posts.length === 0) return null;
 
   return (
@@ -11,7 +19,7 @@ export async function Blog() {
       <div className="mx-auto max-w-6xl px-4 sm:px-8">
         <Reveal>
           <div className="mb-10 text-center">
-            <h2 className="font-heading text-3xl font-bold sm:text-4xl">Del Blog</h2>
+            <h2 className="font-heading text-3xl font-bold sm:text-4xl">Mis blogs</h2>
             <p className="mt-2 text-muted-foreground">
               Ideas, tips de Cricut y sublimación para tu próximo proyecto.
             </p>
@@ -23,6 +31,14 @@ export async function Blog() {
               <BlogCard post={post} />
             </Reveal>
           ))}
+        </div>
+        <div className="mt-10 text-center">
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-1.5 font-medium text-brand-primary-hover hover:underline"
+          >
+            Ver más <ArrowRight className="size-4" />
+          </Link>
         </div>
       </div>
     </section>

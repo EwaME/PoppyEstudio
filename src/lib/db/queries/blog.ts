@@ -1,4 +1,4 @@
-import { and, desc, eq } from 'drizzle-orm';
+import { and, desc, eq, inArray } from 'drizzle-orm';
 import { db } from '@/lib/db';
 import { blogPosts, blogCategorias } from '@/lib/db/schema';
 import type { BlogPostInput } from '@/lib/validations/blog';
@@ -22,6 +22,17 @@ export async function getBlogPostsRecientes(limit = 3) {
     .where(and(eq(blogPosts.publicado, true), eq(blogPosts.activo, true)))
     .orderBy(desc(blogPosts.fechaPublicacion))
     .limit(limit);
+}
+
+export async function getBlogPostsPorSlugs(slugs: string[]) {
+  const posts = await db
+    .select(BLOG_RESUMEN_SELECT)
+    .from(blogPosts)
+    .innerJoin(blogCategorias, eq(blogCategorias.id, blogPosts.categoriaId))
+    .where(and(eq(blogPosts.publicado, true), eq(blogPosts.activo, true), inArray(blogPosts.slug, slugs)));
+  return slugs
+    .map((slug) => posts.find((post) => post.slug === slug))
+    .filter((post): post is (typeof posts)[number] => Boolean(post));
 }
 
 export async function getBlogPostsPublicados() {

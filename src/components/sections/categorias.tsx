@@ -40,9 +40,6 @@ export async function Categorias() {
                     <ImagePlaceholder icon={Icon} label={categoria.nombre} className="size-16 rounded-full" />
                   )}
                   <p className="font-heading font-semibold">{categoria.nombre}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {categoria.totalProductos} producto{categoria.totalProductos === 1 ? '' : 's'}
-                  </p>
                 </Link>
               </Reveal>
             );

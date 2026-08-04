@@ -1,6 +1,8 @@
 import Link from 'next/link';
-import { ExternalLink, MapPin, Clock, Mail, Phone } from 'lucide-react';
+import Image from 'next/image';
+import { MapPin, Clock, Mail, Phone } from 'lucide-react';
 import { siteConfig } from '@/config/site';
+import { whatsappHref } from '@/lib/helpers/whatsapp';
 import type { Configuracion } from '@/lib/db/queries/configuracion';
 import type { CategoriaConConteo } from '@/lib/db/queries/categorias';
 
@@ -26,9 +28,9 @@ export function Footer({
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
-                className="text-muted-foreground hover:text-brand-primary-hover"
+                className="opacity-80 transition-opacity hover:opacity-100"
               >
-                <ExternalLink className="size-5" />
+                <Image src="/redes/instagram.png" alt="Instagram" width={24} height={24} className="size-6" />
               </a>
             )}
             {configuracion?.tiktok && (
@@ -37,9 +39,20 @@ export function Footer({
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="TikTok"
-                className="text-muted-foreground hover:text-brand-primary-hover"
+                className="opacity-80 transition-opacity hover:opacity-100"
               >
-                <ExternalLink className="size-5" />
+                <Image src="/redes/titkok.png" alt="TikTok" width={24} height={24} className="size-6" />
+              </a>
+            )}
+            {configuracion?.whatsapp && (
+              <a
+                href={whatsappHref(configuracion.whatsapp, 'Hola, quiero cotizar un producto personalizado.')}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp"
+                className="opacity-80 transition-opacity hover:opacity-100"
+              >
+                <Image src="/redes/whatsapp.png" alt="WhatsApp" width={24} height={24} className="size-6" />
               </a>
             )}
           </div>

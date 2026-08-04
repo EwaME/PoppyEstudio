@@ -85,14 +85,18 @@ export function GaleriaAdminClient({ piezas, permissions }: Props) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!archivo) {
-      setPreviewUrl(null);
-      return;
-    }
-    const url = URL.createObjectURL(archivo);
-    setPreviewUrl(url);
-    return () => URL.revokeObjectURL(url);
-  }, [archivo]);
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
+
+  function selectArchivo(file: File | null) {
+    setArchivo(file);
+    setPreviewUrl((prev) => {
+      if (prev) URL.revokeObjectURL(prev);
+      return file ? URL.createObjectURL(file) : null;
+    });
+  }
 
   const form = useForm<GaleriaInput>({
     resolver: zodResolver(galeriaSchema),
@@ -101,14 +105,14 @@ export function GaleriaAdminClient({ piezas, permissions }: Props) {
 
   function openCreate() {
     setEditing(null);
-    setArchivo(null);
+    selectArchivo(null);
     form.reset(DEFAULT_VALUES);
     setOpen(true);
   }
 
   function openEdit(pieza: GaleriaPieza) {
     setEditing(pieza);
-    setArchivo(null);
+    selectArchivo(null);
     form.reset({
       titulo: pieza.titulo,
       slug: pieza.slug,
@@ -265,7 +269,7 @@ export function GaleriaAdminClient({ piezas, permissions }: Props) {
                 id="imagen"
                 type="file"
                 accept="image/jpeg,image/png,image/webp"
-                onChange={(e) => setArchivo(e.target.files?.[0] ?? null)}
+                onChange={(e) => selectArchivo(e.target.files?.[0] ?? null)}
               />
               {(previewUrl || editing?.imagenUrl) && (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -308,8 +312,7 @@ export function GaleriaAdminClient({ piezas, permissions }: Props) {
                 id="destacado"
                 type="checkbox"
                 className="size-4 rounded border-input"
-                checked={form.watch('destacado')}
-                onChange={(e) => form.setValue('destacado', e.target.checked)}
+                {...form.register('destacado')}
               />
               <Label htmlFor="destacado">Destacado</Label>
             </div>

@@ -23,6 +23,8 @@ export function AdminSidebar({ permissions, displayName, email }: Props) {
   const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
+    // SSR no tiene localStorage — el efecto evita mismatch de hydration leyendo la preferencia tras montar.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCollapsed(localStorage.getItem(COLLAPSE_KEY) === 'true');
   }, []);
 

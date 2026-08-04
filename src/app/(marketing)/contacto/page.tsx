@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
-import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import Image from 'next/image';
+import { MapPin, Phone, Mail, Clock, MessageCircle } from 'lucide-react';
 import { getConfiguracion } from '@/lib/db/queries/configuracion';
 import { ContactoForm } from '@/components/marketing/contacto-form';
+import { whatsappHref } from '@/lib/helpers/whatsapp';
 
 export const metadata: Metadata = { title: 'Contacto | Poppy Crafty' };
 
@@ -33,8 +35,13 @@ export default async function ContactoPage() {
             </p>
           )}
           <p className="flex items-center gap-2">
-            <Phone className="size-4 shrink-0" /> {whatsapp}
+            <MessageCircle className="size-4 shrink-0" /> {whatsapp}
           </p>
+          {configuracion?.telefono && (
+            <p className="flex items-center gap-2">
+              <Phone className="size-4 shrink-0" /> {configuracion.telefono}
+            </p>
+          )}
           {configuracion?.email && (
             <p className="flex items-center gap-2">
               <Mail className="size-4 shrink-0" /> {configuracion.email}
@@ -44,6 +51,43 @@ export default async function ContactoPage() {
             <p className="flex items-center gap-2">
               <Clock className="size-4 shrink-0" /> {configuracion.horario}
             </p>
+          )}
+          {(configuracion?.instagram || configuracion?.tiktok || configuracion?.whatsapp) && (
+            <div className="flex gap-3 pt-2">
+              {configuracion?.instagram && (
+                <a
+                  href={configuracion.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                  className="opacity-80 transition-opacity hover:opacity-100"
+                >
+                  <Image src="/redes/instagram.png" alt="Instagram" width={24} height={24} className="size-6" />
+                </a>
+              )}
+              {configuracion?.tiktok && (
+                <a
+                  href={configuracion.tiktok}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="TikTok"
+                  className="opacity-80 transition-opacity hover:opacity-100"
+                >
+                  <Image src="/redes/titkok.png" alt="TikTok" width={24} height={24} className="size-6" />
+                </a>
+              )}
+              {configuracion?.whatsapp && (
+                <a
+                  href={whatsappHref(whatsapp, 'Hola, quiero cotizar un producto personalizado.')}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="WhatsApp"
+                  className="opacity-80 transition-opacity hover:opacity-100"
+                >
+                  <Image src="/redes/whatsapp.png" alt="WhatsApp" width={24} height={24} className="size-6" />
+                </a>
+              )}
+            </div>
           )}
         </div>
       </div>
