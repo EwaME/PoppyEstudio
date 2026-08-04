@@ -9,7 +9,7 @@ export const galeriaSchema = z.object({
     .regex(/^[a-z0-9-]+$/, 'Solo minusculas, numeros y guiones'),
   descripcion: z.string().max(1000).optional(),
   categoria: z.string().max(80).optional(),
-  destacado: z.boolean().default(false),
+  destacado: z.boolean(),
 });
 
 export type GaleriaInput = z.infer<typeof galeriaSchema>;
