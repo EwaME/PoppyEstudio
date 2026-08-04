@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { ArrowLeft, LogOut, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
+import { ArrowLeft, LogOut, PanelLeftClose } from 'lucide-react';
 import { ADMIN_NAV } from '@/config/admin-nav';
 import { cn } from '@/lib/utils';
 import { logoutAction } from '@/app/(admin)/logout-action';
@@ -57,10 +57,14 @@ export function AdminSidebar({ permissions, displayName, email }: Props) {
           aria-label={collapsed ? 'Expandir sidebar' : 'Colapsar sidebar'}
           className={cn(
             'flex size-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-foreground',
-            collapsed && 'mx-auto'
+            collapsed && 'mx-auto size-9'
           )}
         >
-          {collapsed ? <PanelLeftOpen className="size-4" /> : <PanelLeftClose className="size-4" />}
+          {collapsed ? (
+            <Image src="/Logo.png" alt="Expandir sidebar" width={36} height={36} className="size-9 object-contain" />
+          ) : (
+            <PanelLeftClose className="size-4" />
+          )}
         </button>
       </div>
 
