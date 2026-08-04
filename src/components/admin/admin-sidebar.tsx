@@ -46,9 +46,9 @@ export function AdminSidebar({ permissions, displayName, email }: Props) {
           <Image
             src="/logomaleante.png"
             alt="Poppy Crafty"
-            width={140}
-            height={77}
-            className="h-8 w-auto object-contain"
+            width={180}
+            height={99}
+            className="h-14 w-auto object-contain"
           />
         )}
         <button
