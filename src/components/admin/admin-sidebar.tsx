@@ -48,7 +48,7 @@ export function AdminSidebar({ permissions, displayName, email }: Props) {
             alt="Poppy Crafty"
             width={180}
             height={99}
-            className="h-14 w-auto object-contain"
+            className="h-11.25 w-auto object-contain"
           />
         )}
         <button
